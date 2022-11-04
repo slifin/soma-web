@@ -1,23 +1,34 @@
 (ns soma-web.core
   (:require [ring.adapter.jetty :as jetty]
-            [nexus.core :as ns]))
+            [com.nivekuil.nexus :as nx]
+            [clojure-ini.core :as ini]))
 
-(ns/def web-start
-  [{::keys [port handler]}]
-  {}
-  (fn []
-    (jetty/run-jetty handler {:port port})))
+(nx/def web-server
+  [{::keys [port root]}]
+  {::nx/halt (fn [web] (.stop web))}
+  (jetty/run-jetty (fn [_] root) {:port port :join? false}))
 
-
-(defn handler [request]
-  {:status 200
-   :body "Hello World!"})
-
-(defn -main
-  [& _]
-  (println "Hello, World!"))
-
-
-(defn start
+(nx/def root
   []
-  (run-jetty handler {:port 80}))
+  {}
+  {:status 200
+   :body "Hello world!"})
+
+(nx/def options
+  []
+  {}
+  (ini/read-ini "config.ini"))
+
+
+(defonce sys (nx/init #:soma-web.core{:port 8000}
+                      [::web-server]))
+
+
+(comment
+ (nx/halt! sys)
+ (nx/reset sys #:soma-web.core{:port 8000} [::web-server]))
+
+
+
+
+

@@ -1,3 +1,5 @@
 {:deps {ring/ring-jetty-adapter {:mvn/version "1.9.6"}
+        hiccup/hiccup {:mvn/version "2.0.0-alpha2"}
+        clojure-ini/clojure-ini {:mvn/version "0.0.2"}
         com.nivekuil/nexus {:git/url "https://github.com/nivekuil/nexus"
                             :sha     "3b68663ff777cbf95870ba5b5ed8d5a7cb1dcaa1"}}}
