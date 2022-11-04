@@ -1,0 +1,1 @@
+{:lint-as {com.nivekuil.nexus/def clojure.core/defn}}
